@@ -28,7 +28,7 @@ func newRandomWalk(l int, iter int) *RandomWalk {
 }
 
 // for starting position (0,0) make a step, till step reaches length
-func (rw RandomWalk) Walk() {
+func (rw RandomWalk) ManhattenWalk() {
 	// repeat for i iterations
 	TotalWalkLength := 0
 	for i := 0; i < rw.iterations; i++ {
@@ -52,6 +52,30 @@ func (rw RandomWalk) Walk() {
 	fmt.Println(avgWalkLength)
 }
 
+func (rw RandomWalk) EucleadeanWalk() {
+	// repeat for i iterations
+	TotalWalkLength := 0
+	for i := 0; i < rw.iterations; i++ {
+		// for every iteration
+		x, y := 0, 0
+		for step := 0; step < rw.length; step++ {
+			// fmt.Println(x, y, choices[rand.Intn(len(choices))])
+			choice := choices[rand.Intn(len(choices))]
+			x += choice[0]
+			y += choice[1]
+		}
+
+		distance := math.Sqrt(x * x + y * y)
+
+		TotalWalkLength += distance
+
+	}
+
+	avgWalkLength := TotalWalkLength / rw.iterations
+
+	fmt.Println(avgWalkLength)
+}
+
 func init() {
 	rand.Seed(time.Now().Unix())
 }
@@ -60,5 +84,6 @@ func main() {
 	fmt.Println("Random Walk Tester")
 	randomWalk := newRandomWalk(1000, 100000)
 	fmt.Println("Random Walk Length : ", randomWalk.length)
-	randomWalk.Walk()
+	randomWalk.ManhattenWalk()
+	randomWalk.EucleadeanWalk()
 }
